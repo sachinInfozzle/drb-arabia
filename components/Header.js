@@ -168,327 +168,374 @@ const Header = ({ data }) => {
 
   return (
     <header className="header">
-    <div className="container-fluid">
-      <nav className="navbar navbar-expand-lg header-nav custom-row-reverse">
-        {/* Common Section: Logo and Language Dropdown */}
-        <div className="custom-first-section">
-          <div className="navbar-header">
-            {/* Mobile Menu Toggle Button */}
-            {isMobile && (
-              <button
-                id="mobile_btns"
-                className="navbar-toggler"
-                onClick={handleMobileMenuToggle}
-              >
-                <span className="bar-icon">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
-              </button>
-            )}
-            {/* Logo */}
-            <Link href="/" className="navbar-brand logo">
-              <img src={`${apiUrl}/${logo}`} alt="Logo" />
-            </Link>
-            {/* Language Dropdown */}
-            <div className="flag-dropdown">
-              <Link
-                data-bs-toggle="dropdown"
-                href="#"
-                role="button"
-                onClick={toggleClass}
-                className={`dropdown-toggle nav-link ${isActive ? "show" : ""}`}
-              >
-                <img
-                  src={`${apiUrl}/uploads/globe_icon_1acc98d4f0.svg`}
-                  alt=""
-                  height="20"
-                  className="flag-img"
-                />
-                <span>{currentLang === "en" ? "EN" : "عربي"}</span>
+      <div className="container-fluid">
+        <nav className="navbar navbar-expand-lg header-nav custom-row-reverse">
+          {/* Common Section: Logo and Language Dropdown */}
+          <div className="custom-first-section">
+            <div className="navbar-header">
+              {/* Mobile Menu Toggle Button */}
+              {isMobile && (
+                <button
+                  id="mobile_btns"
+                  className="navbar-toggler"
+                  onClick={handleMobileMenuToggle}
+                >
+                  <span className="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </button>
+              )}
+              {/* Logo */}
+              <Link href="/" className="navbar-brand logo">
+                <img src={`${apiUrl}/${logo}`} alt="Logo" />
               </Link>
-              
-              <div className="dropdown-menu dropdown-menu-end">
-                <a
-                  className="dropdown-item"
-                  onClick={() => changeLanguage("en")}
+              {/* Language Dropdown */}
+              <div className="flag-dropdown">
+                <Link
+                  data-bs-toggle="dropdown"
+                  href="#"
+                  role="button"
+                  onClick={toggleClass}
+                  className={`dropdown-toggle nav-link ${
+                    isActive ? "show" : ""
+                  }`}
                 >
-                  English
-                </a>
-                <a
-                  className="dropdown-item"
-                  onClick={() => changeLanguage("ar")}
-                >
-                  عربي
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        {/* Desktop View: Navigation Menu */}
-        {!isMobile && (
-          <div className="custom-second-section">
-            <div className="main-menu-wrapper">
-              <ul className="main-nav custom-row-reverse">
-                {menuItems.map((menu, index) => (
-                  <li
-                    key={menu.id}
-                    className={`nav-item ${
-                      menu.Item.length > 0 ? "has-submenu" : ""
-                    }`}
-                    style={{ order: menu.Position }}
-                  >
-                    <a
-                      href={
-                        index === menuItems.length - 1 && data?.Link
-                          ? data?.Link
-                          : menu.Link
-                      }
-                      className="nav-link"
-                    >
-                      {menu.Title}
-                      {menu.Item && menu.Item.length > 0 && (
-                        <i
-                          onClick={(e) => toggleSubMenu(e)}
-                          className="fas fa-chevron-right"
-                        ></i>
-                      )}
-                    </a>
-                    {menu.Item && menu.Item.length > 0 && (
-                      <>
-                        <ul className="submenu custom-right-align">
-                          {menu.Item.map((subItem) => (
-                            <li key={subItem.id}>
-                              <a href={subItem.Link}>{subItem.Title}</a>
-                            </li>
-                          ))}
-                          <div
-                            className="menu-side-img"
-                            style={{
-                              backgroundImage: `url(${apiUrl + menu.Image?.url})`,
-                            }}
-                          ></div>
-                        </ul>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
-  
-        {/* Desktop View: Book Now and Language Dropdown */}
-        {!isMobile && (
-          <div className="custom-third-section">
-            <ul className="nav header-navbar-rht custom-row-reverse">
-              <li className="nav-item">
-                <div className="relative">
-                  <button
-                    className="btn btn-primary w-[170px]"
-                    onClick={() => setIsBookNowDropdownOpen(!isBookNowDropdownOpen)}
-                  >
-                    {data?.Title || booknow?.Title || "Book Now"}
-                  </button>
-  
-                  {isBookNowDropdownOpen && (
-                    <div className="absolute left-0 w-[170px] bg-[#f1ebdf] shadow-lg">
-                      {(
-                        booknow?.Item || [
-                          {
-                            id: 1,
-                            TitleEn: "The Leaf Riyadh",
-                            TitleAr: "الورقة الرياض",
-                            Link: "https://drbarabia.book-onlinenow.net/index.aspx?Page=1",
-                          },
-                          {
-                            id: 2,
-                            TitleEn: "The Leaf Ha'il",
-                            TitleAr: "الورقة حائل",
-                            Link: "https://drbarabia-leafhail.book-onlinenow.net/",
-                          },
-                        ]
-                      ).map((subItem) => (
-                        <div key={subItem.id}>
-                          <a
-                            href={subItem.Link}
-                            className="block px-4 py-2 text-gray-700 hover:bg-[#ae4c29] hover:text-white"
-                            onClick={() => setIsBookNowDropdownOpen(false)}
-                          >
-                            {currentLang === "en" ? subItem.TitleEn : subItem.TitleAr}
-                          </a>
-                          {subItem.TitleEn === "The Leaf Riyadh" && (
-                            <div className="border-t border-gray-200"></div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </li>
-  
-              <li>
-                <div className="flag-dropdown">
-                  <Link
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    onClick={toggleClass}
-                    className={`dropdown-toggle nav-link ${isActive ? "show" : ""}`}
-                  >
-                    <img
-                      src={`${apiUrl}/uploads/globe_icon_1acc98d4f0.svg`}
-                      alt=""
-                      height="20"
-                      className="flag-img"
-                    />
-                    <span>{currentLang === "en" ? "EN" : "عربي"}</span>
-                  </Link>
-                  <div className="dropdown-menu dropdown-menu-end">
-                    <a
-                      className={`dropdown-item ${
-                        currentLang === "en" ? "" : "inactive"
-                      }`}
-                      onClick={() => changeLanguage("en")}
-                    >
-                      English
-                    </a>
-                    <a
-                      className={`dropdown-item ${
-                        currentLang === "ar" ? "" : "inactive"
-                      }`}
-                      onClick={() => changeLanguage("ar")}
-                    >
-                      عربي
-                    </a>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        )}
-  
-        {/* Mobile View: Navigation Menu and Book Now Dropdown */}
-        {isMobile && (
-          <div className="custom-second-section">
-            <div className="main-menu-wrapper">
-              <div className="menu-header">
-                <a href="getMenu('')" className="menu-logo">
                   <img
-                    src={`${apiUrl}/${logo}`}
-                    className="img-fluid"
-                    alt="Logo"
+                    src={`${apiUrl}/uploads/globe_icon_1acc98d4f0.svg`}
+                    alt=""
+                    height="20"
+                    className="flag-img"
                   />
-                </a>
-                <a id="menu_close" className="menu-close" href="#">
-                  <i className="fas fa-times"></i>
-                </a>
-              </div>
-              <ul className="main-nav custom-row-reverse">
-                {menuItems.map((menu, index) => (
-                  <li
-                    key={menu.id}
-                    className={`nav-item ${
-                      menu.Item.length > 0 ? "has-submenu" : ""
-                    }`}
-                    style={{ order: menu.Position }}
+                  <span>{currentLang === "en" ? "EN" : "عربي"}</span>
+                </Link>
+
+                <div className="dropdown-menu dropdown-menu-end">
+                  <a
+                    className="dropdown-item"
+                    onClick={() => changeLanguage("en")}
                   >
-                    <a
-                      href={
-                        index === menuItems.length - 1 && data?.Link
-                          ? data?.Link
-                          : menu.Link
-                      }
-                      className="nav-link"
-                    >
-                      {menu.Title}
-                      {menu.Item && menu.Item.length > 0 && (
-                        <i
-                          onClick={(e) => toggleSubMenu(e)}
-                          className="fas fa-chevron-right"
-                        ></i>
-                      )}
-                    </a>
-                    {menu.Item && menu.Item.length > 0 && (
-                      <>
-                        <ul className="submenu custom-right-align">
-                          {menu.Item.map((subItem) => (
-                            <li key={subItem.id}>
-                              <a href={subItem.Link}>{subItem.Title}</a>
-                            </li>
-                          ))}
-                          <div
-                            className="menu-side-img"
-                            style={{
-                              backgroundImage: `url(${apiUrl + menu.Image?.url})`,
-                            }}
-                          ></div>
-                        </ul>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
+                    English
+                  </a>
+                  <a
+                    className="dropdown-item"
+                    onClick={() => changeLanguage("ar")}
+                  >
+                    عربي
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-        )}
-  
-        {/* Mobile View: Book Now Dropdown */}
-        {isMobile && (
-          <div className="custom-third-section">
-            <ul className="nav header-navbar-rht custom-row-reverse">
-              <li className="nav-item">
-                <div className="relative">
-                  <button
-                    className="btn btn-primary w-[170px]"
-                    onClick={() => setIsBookNowDropdownOpen(!isBookNowDropdownOpen)}
-                  >
-                    {data?.Title || booknow?.Title || "Book Now"}
-                  </button>
-  
-                  {isBookNowDropdownOpen && (
-                    <div className="absolute left-0 w-[170px] bg-[#f1ebdf] shadow-lg mt-2">
-                      {(
-                        booknow?.Item || [
-                          {
-                            id: 1,
-                            TitleEn: "The Leaf Riyadh",
-                            TitleAr: "الورقة الرياض",
-                            Link: "https://drbarabia.book-onlinenow.net/index.aspx?Page=1",
-                          },
-                          {
-                            id: 2,
-                            TitleEn: "The Leaf Ha'il",
-                            TitleAr: "الورقة حائل",
-                            Link: "https://drbarabia-leafhail.book-onlinenow.net/",
-                          },
-                        ]
-                      ).map((subItem) => (
-                        <div key={subItem.id}>
-                          <a
-                            href={subItem.Link}
-                            className="block px-4 py-2 text-gray-700 hover:bg-[#ae4c29] hover:text-white"
-                            onClick={() => setIsBookNowDropdownOpen(false)}
-                          >
-                            {currentLang === "en" ? subItem.TitleEn : subItem.TitleAr}
-                          </a>
-                          {subItem.TitleEn === "The Leaf Riyadh" && (
-                            <div className="border-t border-gray-200"></div>
-                          )}
-                        </div>
-                      ))}
+
+          {/* Desktop View: Navigation Menu */}
+          {!isMobile && (
+            <div className="custom-second-section">
+              <div className="main-menu-wrapper">
+                <ul className="main-nav custom-row-reverse">
+                  {menuItems.map((menu, index) => (
+                    <li
+                      key={menu.id}
+                      className={`nav-item ${
+                        menu.Item.length > 0 ? "has-submenu" : ""
+                      }`}
+                      style={{ order: menu.Position }}
+                    >
+                      <a
+                        href={
+                          index === menuItems.length - 1 && data?.Link
+                            ? data?.Link
+                            : menu.Link
+                        }
+                        className="nav-link"
+                      >
+                        {menu.Title}
+                        {menu.Item && menu.Item.length > 0 && (
+                          <i
+                            onClick={(e) => toggleSubMenu(e)}
+                            className="fas fa-chevron-right"
+                          ></i>
+                        )}
+                      </a>
+                      {menu.Item && menu.Item.length > 0 && (
+                        <>
+                          <ul className="submenu custom-right-align">
+                            {menu.Item.map((subItem) => (
+                              <li key={subItem.id}>
+                                <a href={subItem.Link}>{subItem.Title}</a>
+                              </li>
+                            ))}
+                            <div
+                              className="menu-side-img"
+                              style={{
+                                backgroundImage: `url(${
+                                  apiUrl + menu.Image?.url
+                                })`,
+                              }}
+                            ></div>
+                          </ul>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Desktop View: Book Now and Language Dropdown */}
+          {!isMobile && (
+            <div className="custom-third-section">
+              <ul className="nav header-navbar-rht custom-row-reverse">
+                <li className="nav-item">
+                  <div className="relative">
+                    <button
+                      className="btn btn-primary w-[170px]"
+                      onClick={() =>
+                        setIsBookNowDropdownOpen(!isBookNowDropdownOpen)
+                      }
+                    >
+                      {data?.Title || booknow?.Title || "Book Now"}
+                    </button>
+
+                    {isBookNowDropdownOpen && (
+                      <div className="absolute left-0 w-[170px] bg-[#f1ebdf] shadow-lg">
+                        {(
+                          booknow?.Item || [
+                            {
+                              id: 1,
+                              TitleEn: "The Leaf Riyadh",
+                              TitleAr: "الورقة الرياض",
+                              Link: "https://drbarabia.book-onlinenow.net/index.aspx?Page=1",
+                            },
+                            {
+                              id: 2,
+                              TitleEn: "The Leaf Ha'il",
+                              TitleAr: "الورقة حائل",
+                              Link: "https://drbarabia-leafhail.book-onlinenow.net/",
+                            },
+                          ]
+                        ).map((subItem) => (
+                          <div key={subItem.id}>
+                            <a
+                              href={subItem.Link}
+                              className="block px-4 py-2 text-gray-700 hover:bg-[#ae4c29] hover:text-white"
+                              onClick={() => setIsBookNowDropdownOpen(false)}
+                            >
+                              {currentLang === "en"
+                                ? subItem.TitleEn
+                                : subItem.TitleAr}
+                            </a>
+                            {subItem.TitleEn === "The Leaf Riyadh" && (
+                              <div className="border-t border-gray-200"></div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </li>
+
+                <li>
+                  <div className="flag-dropdown">
+                    <Link
+                      data-bs-toggle="dropdown"
+                      href="#"
+                      role="button"
+                      onClick={toggleClass}
+                      className={`dropdown-toggle nav-link ${
+                        isActive ? "show" : ""
+                      }`}
+                    >
+                      <img
+                        src={`${apiUrl}/uploads/globe_icon_1acc98d4f0.svg`}
+                        alt=""
+                        height="20"
+                        className="flag-img"
+                      />
+                      <span>{currentLang === "en" ? "EN" : "عربي"}</span>
+                    </Link>
+                    <div className="dropdown-menu dropdown-menu-end">
+                      <a
+                        className={`dropdown-item ${
+                          currentLang === "en" ? "" : "inactive"
+                        }`}
+                        onClick={() => changeLanguage("en")}
+                      >
+                        English
+                      </a>
+                      <a
+                        className={`dropdown-item ${
+                          currentLang === "ar" ? "" : "inactive"
+                        }`}
+                        onClick={() => changeLanguage("ar")}
+                      >
+                        عربي
+                      </a>
                     </div>
-                  )}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          {/* Mobile View: Navigation Menu and Book Now Dropdown */}
+          {isMobile && (
+            <div className="custom-second-section">
+              <div className="main-menu-wrapper">
+                <div className="menu-header">
+                  <a href="getMenu('')" className="menu-logo">
+                    <img
+                      src={`${apiUrl}/${logo}`}
+                      className="img-fluid"
+                      alt="Logo"
+                    />
+                  </a>
+                  <a id="menu_close" className="menu-close" href="#">
+                    <i className="fas fa-times"></i>
+                  </a>
                 </div>
-              </li>
-            </ul>
-          </div>
-        )}
-      </nav>
-    </div>
-  </header>
+                <ul className="main-nav custom-row-reverse">
+                  {menuItems.map((menu, index) => (
+                    <li
+                      key={menu.id}
+                      className={`nav-item ${
+                        menu.Item.length > 0 || index === menuItems.length - 1
+                          ? "has-submenu"
+                          : ""
+                      }`}
+                      style={{ order: menu.Position }}
+                    >
+                      <a
+                        href={
+                          index === menuItems.length - 1 && data?.Link
+                            ? data?.Link
+                            : menu.Link
+                        }
+                        className="nav-link"
+                      >
+                        {menu.Title}
+                        {(menu.Item.length > 0 ||
+                          index === menuItems.length - 1) && (
+                          <i
+                            onClick={(e) => toggleSubMenu(e)}
+                            className="fas fa-chevron-right"
+                          ></i>
+                        )}
+                      </a>
+
+                      {(menu.Item.length > 0 ||
+                        index === menuItems.length - 1) && (
+                        <ul className="submenu custom-right-align">
+                          {index !== menuItems.length - 1
+                            ? menu.Item.map((subItem) => (
+                                <li key={subItem.id}>
+                                  <a href={subItem.Link}>{subItem.Title}</a>
+                                </li>
+                              ))
+                            : (
+                                booknow?.Item || [
+                                  {
+                                    id: 1,
+                                    TitleEn: "The Leaf Riyadh",
+                                    TitleAr: "الورقة الرياض",
+                                    Link: "https://drbarabia.book-onlinenow.net/index.aspx?Page=1",
+                                  },
+                                  {
+                                    id: 2,
+                                    TitleEn: "The Leaf Ha'il",
+                                    TitleAr: "الورقة حائل",
+                                    Link: "https://drbarabia-leafhail.book-onlinenow.net/",
+                                  },
+                                ]
+                              ).map((subItem) => (
+                                <li key={subItem.id}>
+                                  <a href={subItem.Link}>
+                                    {currentLang === "en"
+                                      ? subItem.TitleEn
+                                      : subItem.TitleAr}
+                                  </a>
+                                </li>
+                              ))}
+
+                          {menu.Image?.url && (
+                            <div
+                              className="menu-side-img"
+                              style={{
+                                backgroundImage: `url(${
+                                  apiUrl + menu.Image.url
+                                })`,
+                              }}
+                            ></div>
+                          )}
+                        </ul>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Mobile View: Book Now Dropdown */}
+          {isMobile && (
+            <div className="custom-third-section">
+              <ul className="nav header-navbar-rht custom-row-reverse">
+                <li className="nav-item">
+                  <div className="relative">
+                    <button
+                      className="btn btn-primary w-[170px]"
+                      onClick={() =>
+                        setIsBookNowDropdownOpen(!isBookNowDropdownOpen)
+                      }
+                    >
+                      {data?.Title || booknow?.Title || "Book Now"}
+                    </button>
+
+                    {isBookNowDropdownOpen && (
+                      <div className="absolute left-0 w-[170px] bg-[#f1ebdf] shadow-lg">
+                        {(
+                          booknow?.Item || [
+                            {
+                              id: 1,
+                              TitleEn: "The Leaf Riyadh",
+                              TitleAr: "الورقة الرياض",
+                              Link: "https://drbarabia.book-onlinenow.net/index.aspx?Page=1",
+                            },
+                            {
+                              id: 2,
+                              TitleEn: "The Leaf Ha'il",
+                              TitleAr: "الورقة حائل",
+                              Link: "https://drbarabia-leafhail.book-onlinenow.net/",
+                            },
+                          ]
+                        ).map((subItem) => (
+                          <div key={subItem.id}>
+                            <a
+                              href={subItem.Link}
+                              className="block px-4 py-2 text-gray-700 hover:bg-[#ae4c29] hover:text-white"
+                              onClick={() => setIsBookNowDropdownOpen(false)}
+                            >
+                              {currentLang === "en"
+                                ? subItem.TitleEn
+                                : subItem.TitleAr}
+                            </a>
+                            {subItem.TitleEn === "The Leaf Riyadh" && (
+                              <div className="border-t border-gray-200"></div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          )}
+        </nav>
+      </div>
+    </header>
   );
 };
 
